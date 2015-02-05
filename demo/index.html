@@ -1,26 +1,49 @@
 <!DOCTYPE html> 
 <html lang="en"> 
-<head> 
-	<meta charset="utf-8" /> 
-	<title>gyro.js - easy access to your web browsers built in accelerometer's and gyroscope's</title>
-</head>
-<body>
-	<p>This Example just print's the raw accelerometer and gyro data. Will return null if no device information is found.</p>
-	<p>gyro.getFeatures: <span id="features"></span></p>
-	<span id="example"></span>
-	<script src="../js/gyro.js"></script>
-	<script>
-		gyro.startTracking(function(o) {
-			var b = document.getElementById('example'),
-					f = document.getElementById('features');
-			f.innerHTML = gyro.getFeatures();
-			b.innerHTML = "<p> x = " + o.x + "</p>" +
-										"<p> y = " + o.y + "</p>" +
-										"<p> z = " + o.z + "</p>" +
-										"<p> alpha = " + o.alpha + "</p>" +
-										"<p> beta = " + o.beta + "</p>" +
-										"<p> gamma = " + o.gamma + "</p>";
-		});
-	</script>
-</body>
-</html>
+  <head> 
+    <meta charset="utf-8" /> 
+    <title>gyro.js - easy access to your web browsers built in accelerometer's and gyroscope's</title>
+  </head>
+  <body>
+    <p>This Example just print's the raw accelerometer and gyro data. Will return null if no device information is found.</p>
+    <p>gyro.getFeatures: <span id="features"></span></p>
+    <span id="example"></span>
+    debug:
+    <span id="debug"></span>
+    <script src="../js/heap.js"></script>
+    <script src="../js/gyro.js"></script>
+    <script>
+      gyro.frequency = 5;
+      gyro.startTracking(function(o) {});
+
+      setTimeout(function() { gyro.calibrate(); }, 100); 
+      setInterval(function() {
+        var o = gyro.getCurrentMeasurements();
+        var b = document.getElementById('example'),
+        f = document.getElementById('features');
+        f.innerHTML = gyro.getFeatures();
+        b.innerHTML = "<p> x = " + o.x + "</p>" +
+        "<p> y = " + o.y + "</p>" +
+        "<p> z = " + o.z + "</p>" +
+        "<p> alpha = " + o.alpha + "</p>" +
+        "<p> beta = " + o.beta + "</p>" +
+        "<p> gamma = " + o.gamma + "</p>";
+        }, 100);
+      setInterval(function() {
+          var d = document.getElementById('debug');
+          d.innerHTML =  "<p>x:"+gyro.getCalibration().x+"</p>";
+          d.innerHTML += "<p>y:"+gyro.getCalibration().y+"</p>";
+          d.innerHTML += "<p>z:"+gyro.getCalibration().z+"</p>";
+          d.innerHTML += "<p>alpha:"+gyro.getCalibration().alpha+"</p>";
+          d.innerHTML += "<p>beta:"+gyro.getCalibration().beta+"</p>";
+          d.innerHTML += "<p>gamma:"+gyro.getCalibration().gamma+"</p>";
+          d.innerHTML += "<p>rawAlpha:"+gyro.getCalibration().rawAlpha+"</p>";
+          d.innerHTML += "<p>rawBeta:"+gyro.getCalibration().rawBeta+"</p>";
+          d.innerHTML += "<p>rawGamma:"+gyro.getCalibration().rawGamma+"</p>";
+          d.innerHTML += "<p>x_adj:"+gyro.getCalibration().x_adj+"</p>";
+          d.innerHTML += "<p>y_adj:"+gyro.getCalibration().y_adj+"</p>";
+          d.innerHTML += "<p>z_adj:"+gyro.getCalibration().z_adj+"</p>";
+          }, 1000);
+        </script>
+      </body>
+    </html>
